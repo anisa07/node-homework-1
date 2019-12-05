@@ -12,5 +12,8 @@ const errorCatcher = (message, e) => {
 };
 
 readStream.on('error', (e) => {errorCatcher('reading file!', e)})
-    .pipe(csvToJson())
+    .pipe(csvToJson({
+        ignoreColumns: /(Amount)/,
+        headers: ['book', 'author', 'Amount', 'price'],
+    }))
     .pipe(writeStream).on('error', (e) => {errorCatcher('writing file!', e)});
