@@ -8,7 +8,7 @@ export const getAll = () => users;
 
 export const getById = (id) => users.find(user => user.id === id);
 
-export const create = ({login, password, age, isDeleted}) => {
+export const create = ({ login, password, age, isDeleted }) => {
     users.push(new User(login, password, age,  isDeleted));
 
     return users.slice(-1);
@@ -19,8 +19,8 @@ export const update = (id, data) => {
 
     users = users.map(user => {
         if (id === user.id) {
-            user = {...user, ...data};
-            updatedUser = {user};
+            user = { ...user, ...data };
+            updatedUser = { user };
         }
         return user;
     });

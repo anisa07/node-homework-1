@@ -5,28 +5,28 @@ const userRouter = express.Router();
 const userController = new UserController();
 
 // get user by id
-userRouter.get('/:id', function (request, response){
+userRouter.get('/:id', (request, response) => {
     response.send(userController.getUserById(request.params.id));
 });
 
 // create user
-userRouter.post('/create', function (request, response){
+userRouter.post('/create', (request, response) => {
     response.send(userController.createUser(request.body));
 });
 
 // update user
-userRouter.patch('/:id', function (request, response){
+userRouter.patch('/:id', (request, response) => {
     response.send(userController.updateUser(request.params.id, request.body));
 });
 
 // get auto-suggest user from limit users. sorted by login property and filtered by login substring
-userRouter.get('/', function(request, response){
-    const {limit, loginSubstring} = request.query;
-    response.send(userController.getAutoSuggestUsers(loginSubstring || '', Number.parseInt(limit) || 0));
+userRouter.get('/', (request, response) => {
+    const { limit, loginSubstring } = request.query;
+    response.send(userController.getAutoSuggestUsers(loginSubstring || '', Number.parseInt(limit, 10) || 0));
 });
 
 // remove user (soft remove, set isDeleted = true)
-userRouter.delete('/:id', function(request, response){
+userRouter.delete('/:id', (request, response) => {
     response.send(userController.deleteUser(request.params.id));
 });
 
