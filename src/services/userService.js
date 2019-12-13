@@ -1,4 +1,5 @@
 import { User } from '../models/User';
+import { userValidationSchema } from '../validation/userValidation';
 
 let users = [new User('test', '123456', '21', false, '1'),
     new User('tek', '123456', '21', false, '2'),
@@ -9,9 +10,13 @@ export const getAll = () => users;
 export const getById = (id) => users.find(user => user.id === id);
 
 export const create = ({ login, password, age, isDeleted }) => {
-    users.push(new User(login, password, age,  isDeleted));
+    const validation = userValidationSchema.validate({ login, password, age, isDeleted });
+    if (!validation.error) {
+        users.push(new User(login, password, age,  isDeleted));
 
-    return users.slice(-1);
+        return users.slice(-1);
+    }
+    throw validation.error;
 };
 
 export const update = (id, data) => {
@@ -19,8 +24,13 @@ export const update = (id, data) => {
 
     users = users.map(user => {
         if (id === user.id) {
-            user = { ...user, ...data };
-            updatedUser = { user };
+            updatedUser = { ...user, ...data };
+            const validation = userValidationSchema.validate(updatedUser);
+            if (!validation.error) {
+                user = { ...updatedUser };
+            } else {
+                throw validation.error;
+            }
         }
         return user;
     });

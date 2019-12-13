@@ -11,12 +11,21 @@ userRouter.get('/:id', (request, response) => {
 
 // create user
 userRouter.post('/create', (request, response) => {
-    response.send(userController.createUser(request.body));
+    try {
+        response.send(userController.createUser(request.body));
+    } catch (e) {
+        response.status(400).send(e);
+    }
 });
 
 // update user
 userRouter.patch('/:id', (request, response) => {
-    response.send(userController.updateUser(request.params.id, request.body));
+    try {
+        response.send(userController.updateUser(request.params.id, request.body));
+    } catch (e) {
+        console.log(e);
+        response.status(400).send(e);
+    }
 });
 
 // get auto-suggest user from limit users. sorted by login property and filtered by login substring
