@@ -6,20 +6,11 @@ export class UserController {
     }
 
     createUser(request, response) {
-        try {
-            response.send(create(request.body));
-        } catch (e) {
-            response.status(400).send(e);
-        }
+        response.send(create(request.body));
     }
 
     updateUser(request, response) {
-        try {
-            response.send(update(request.params.id, request.body));
-        } catch (e) {
-            console.log(e);
-            response.status(400).send(e);
-        }
+        response.send(update(request.params.id, request.body));
     }
 
     getAutoSuggestUsers(request, response) {
