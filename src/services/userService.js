@@ -1,53 +1,38 @@
-import { User } from '../models/User';
+import uuidv4 from 'uuid/v4';
+import { UserModel } from '../models/initModels';
 import { userValidationSchema } from '../validation/userValidation';
 
-let users = [new User('test', '123456', '21', false, '1'),
-    new User('tek', '123456', '21', false, '2'),
-    new User('tea', '123456', '21', false, '3')];
+export const getAll = async () => UserModel.findAll();
 
-export const getAll = () => users;
+export const getById = async (id) => UserModel.findOne({
+    where: {
+        id: id,
+    },
+});
 
-export const getById = (id) => users.find(user => user.id === id);
-
-export const create = ({ login, password, age, isDeleted }) => {
+export const create = async ({ login, password, age, isDeleted }) => {
     const validation = userValidationSchema.validate({ login, password, age, isDeleted });
     if (!validation.error) {
-        users.push(new User(login, password, age,  isDeleted));
-
-        return users.slice(-1);
+        return UserModel.create({
+            id: uuidv4(),
+            login,
+            password,
+            age,
+            isDeleted
+        });
     }
-    throw validation.error;
 };
 
-export const update = (id, data) => {
-    let updatedUser = {};
-
-    users = users.map(user => {
-        if (id === user.id) {
-            updatedUser = { ...user, ...data };
-            const validation = userValidationSchema.validate(updatedUser);
-            if (!validation.error) {
-                user = { ...updatedUser };
-            } else {
-                throw validation.error;
-            }
-        }
-        return user;
+export const update = async (id, data) => UserModel.update({
+        ...data
+    }, {
+        where: {id: id},
+        returning: true,
     });
 
-    return updatedUser;
-};
-
-export const softDelete = (id) => {
-    let deletedUser = {};
-
-    users = users.map(user => {
-        if (id === user.id) {
-            user.isDeleted = true;
-            deletedUser = user;
-        }
-        return user;
+export const softDelete = async (id) => UserModel.update({
+        isDeleted: true
+    }, {
+        where: {id: id},
+        returning: true,
     });
-
-    return deletedUser;
-};
