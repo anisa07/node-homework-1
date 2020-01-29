@@ -1,22 +1,27 @@
-import { getById, create, update, getAll, softDelete } from '../services/userService';
+import {getById, create, update, getAll, softDelete} from '../services/userService';
 
 export class UserController {
-    getUserById(request, response) {
-        response.send(getById(request.params.id));
+    async getUserById(request, response) {
+        const user = await getById(request.params.id);
+        response.send(user);
     }
 
-    createUser(request, response) {
-        response.send(create(request.body));
+    async createUser(request, response) {
+        const user = await create(request.body);
+        response.send(user.dataValues);
     }
 
-    updateUser(request, response) {
-        response.send(update(request.params.id, request.body));
+    async updateUser(request, response) {
+        await update(request.params.id, request.body);
+        const user = await getById(request.params.id);
+        response.send(user);
     }
 
-    getAutoSuggestUsers(request, response) {
-        const { limit, loginSubstring } = request.query;
+    async getAutoSuggestUsers(request, response) {
+        const {limit, loginSubstring} = request.query;
+        const users = ( await getAll() || []).map(user => user.dataValues);
         const autoSuggestedUsers = !!limit
-            ? getAll()
+            ? users
                 .filter(user => user.login.includes(loginSubstring))
                 .sort((userA, userB) => userA.login.localeCompare(userB.login))
                 .slice(0, limit)
@@ -25,7 +30,9 @@ export class UserController {
         response.send(autoSuggestedUsers);
     }
 
-    deleteUser(request, response) {
-        response.send(softDelete(request.params.id));
+    async deleteUser(request, response) {
+        await softDelete(request.params.id);
+        const user = await getById(request.params.id);
+        response.send(user);
     }
 }
