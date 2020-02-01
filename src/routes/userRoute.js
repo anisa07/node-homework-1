@@ -4,6 +4,11 @@ import { UserController } from '../controllers/userController';
 const userRouter = express.Router();
 const userController = new UserController();
 
+// get all users
+userRouter.get('/', (request, response) => {
+    userController.getAllUsers(request, response);
+});
+
 // get user by id
 userRouter.get('/:id', (request, response) => {
     userController.getUserById(request, response);
