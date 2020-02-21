@@ -15,8 +15,7 @@ function initGroupModel(sequelize) {
             allowNull: false,
         },
         permissions: {
-            type: Sequelize.STRING,
-            allowNull: false,
+            type: [Sequelize.STRING]
         },
     }, {modelName: 'group', sequelize});
 }
