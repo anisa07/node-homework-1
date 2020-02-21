@@ -2,7 +2,7 @@ import uuidv4 from 'uuid/v4';
 import { UserModel } from '../models/initModels';
 import { userValidationSchema } from '../validation/userValidation';
 
-export const getAll = async () => UserModel.findAll();
+export const getAll = async () => UserModel.findAll() || [];
 
 export const getById = async (id) => UserModel.findOne({
     where: {

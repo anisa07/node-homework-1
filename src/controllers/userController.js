@@ -1,6 +1,11 @@
 import {getById, create, update, getAll, softDelete} from '../services/userService';
 
 export class UserController {
+    async getAllUsers(request, response) {
+        const groups = await getAll();
+        response.send(groups);
+    }
+
     async getUserById(request, response) {
         const user = await getById(request.params.id);
         response.send(user);
