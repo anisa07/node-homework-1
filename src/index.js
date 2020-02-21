@@ -19,7 +19,6 @@ app.use('/', errorHandler);
 const PORT = 5000;
 
 db.sequelize.sync({force: false}).then(() => {
-    // magic script to test TASK 4.2
     app.listen(PORT, () => {
         console.log(`server running on port ${PORT}`);
     });

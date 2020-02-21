@@ -1,5 +1,3 @@
-import uuidv4 from 'uuid/v4';
-import Sequelize from "sequelize";
 import {UserGroupModel} from '../models/initModels';
 
 export const getAll = async () => UserGroupModel.findAll() || [];
