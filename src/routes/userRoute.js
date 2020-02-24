@@ -1,10 +1,6 @@
 import express from 'express';
-import bunyan from 'bunyan';
+import { logPromiseError } from './errorLog';
 import { UserController } from '../controllers/userController';
-
-const log = bunyan.createLogger({
-    name: 'tough-app-user-route',
-});
 
 const userRouter = express.Router();
 const userController = new UserController();
@@ -14,7 +10,7 @@ userRouter.get('/', (request, response) => {
     userController
         .getAllUsers(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -23,7 +19,7 @@ userRouter.get('/:id', (request, response) => {
     userController
         .getUserById(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -32,7 +28,7 @@ userRouter.post('/create', (request, response) => {
     userController
         .createUser(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -41,7 +37,7 @@ userRouter.patch('/:id', (request, response) => {
     userController
         .updateUser(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -50,7 +46,7 @@ userRouter.get('/', (request, response) => {
     userController
         .getAutoSuggestUsers(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -59,7 +55,7 @@ userRouter.delete('/:id', (request, response) => {
     userController
         .deleteUser(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 

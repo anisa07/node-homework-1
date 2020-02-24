@@ -1,10 +1,6 @@
 import express from 'express';
-import bunyan from 'bunyan';
 import { GroupController } from '../controllers/groupController';
-
-const log = bunyan.createLogger({
-    name: 'tough-app-group-route',
-});
+import { logPromiseError } from './errorLog';
 
 const groupRouter = express.Router();
 const groupController = new GroupController();
@@ -14,7 +10,7 @@ groupRouter.get('/:id', (request, response) => {
     groupController
         .getGroupById(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -23,7 +19,7 @@ groupRouter.post('/create', (request, response) => {
     groupController
         .createGroup(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -32,7 +28,7 @@ groupRouter.patch('/:id', (request, response) => {
     groupController
         .updateGroup(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -41,7 +37,7 @@ groupRouter.get('/', (request, response) => {
     groupController
         .getAllGroups(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
@@ -50,7 +46,7 @@ groupRouter.delete('/:id', (request, response) => {
     groupController
         .deleteGroup(request, response)
         .catch(e => {
-            log.error('Error! ', e.message);
+            logPromiseError(request);
         });
 });
 
