@@ -16,7 +16,7 @@ export const create = async ({ name, permissions }) => {
         return GroupModel.create({
             id: uuidv4(),
             name,
-            permissions: permissions.join(', ')
+            permissions: permissions,
         });
     }
 };
@@ -26,7 +26,7 @@ export const update = async (id, data) => {
     if (!validation.error) {
         return GroupModel.update({
             name: data.name,
-            permissions: data.permissions.join(', ')
+            permissions: data.permissions,
         }, {
             where: {id: id},
             returning: true,
