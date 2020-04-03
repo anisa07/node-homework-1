@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --exec babel-node ./src/index.js"
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "postgre:run": "docker run --rm --name my_postgres --env-file ./.env -v my_dbdata:/var/lib/postgresql/data -p 5432:5432 postgres:11"
   },
   "keywords": [],
   "author": "",
