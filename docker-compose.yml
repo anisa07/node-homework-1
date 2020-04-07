@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  server:
+    container_name: server
+    image: server
+    build:
+      context: ./
+      dockerfile: dockerfile
+    volumes:
+      - ./:/server/
+      - /server/node_modules
+    ports:
+      - "5000:5000" # Application port
+      - "9229:9229" # Node.js debugger
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+    environment:
+      WAIT_HOSTS: postgres:5432
+
+  postgres:
+    container_name: postgres
+    image: postgres:11
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Default Postgres port
+    env_file:
+      - ./.env

@@ -28,7 +28,7 @@ app.use('/', errorHandler500);
 
 const PORT = 5000;
 
-db.sequelize.sync({force: false}).then(() => {
+db.sequelize.sync({force: true}).then(() => {
     app.listen(PORT, () => {
         console.log(`server running on port ${PORT}`);
     });
